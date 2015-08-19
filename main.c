@@ -27,27 +27,25 @@ int main(int argc, char *argv[])
 
   char encrypted_msg[text_length*2];
   char *key = "ICE";
-
-  while((c = fgetc(plaintext)) != EOF)
+  for(int i = 0; i < text_length; i++)
   {
+    c = fgetc(plaintext);
     // convert to hex (no need to "convert to decimal" - chars ARE decimals)
-
-
+    char *hex;
+    to_hex(c, &hex);
+    encrypted_msg[i * 2] = hex[0];
+    encrypted_msg[i * 2 + 1] = hex[1];
     // xor against key
-    // plop in array
   }
 
-  char *hex;
-  to_hex('k', &hex);
-  printf("k is %s\n", hex);
+  printf("Message in hex = %s\n", encrypted_msg);
   return 0;
 }
 
 void to_hex(char ascii, char **out) {
-  *out = (char *) malloc(3);
+  *out = (char *) malloc(2);
   (*out)[0] = HEX_CHARS[ascii/16];
   (*out)[1] = HEX_CHARS[ascii%16];
-  (*out)[2] = '\0';
 }
 
 char * fixed_xor(char *hex, char *mask)
